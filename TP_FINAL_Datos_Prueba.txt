@@ -1,0 +1,141 @@
+/* =====================================================================
+   TP_FINAL - Datos de prueba (3 filas por tabla)
+   ===================================================================== */
+
+USE (Nombre Base de datos) /* Ingresar Nombre de Base de datos */
+
+/* ---------- Catalogos ---------- */
+
+INSERT INTO pais (nombre_pais, codigo_iso) VALUES
+('Argentina', 'ARG'),
+('Brasil',    'BRA'),
+('Espana',    'ESP');
+
+INSERT INTO rol_empleado (nombre_rol) VALUES
+('Recepcionista'),
+('Mantenimiento'),
+('Gerente');
+
+INSERT INTO tipo_habitacion (nombre_tipo, capacidad_max, descripcion) VALUES
+('Individual', 1, 'Habitacion para una persona'),
+('Doble',      2, 'Habitacion con cama matrimonial'),
+('Suite',      4, 'Suite de lujo con living');
+
+INSERT INTO comodidad (nombre_comodidad) VALUES
+('WiFi'),
+('TV por cable'),
+('Minibar');
+
+INSERT INTO estado_reserva (descripcion) VALUES
+('Confirmada'),
+('Pendiente'),
+('Cancelada');
+
+INSERT INTO servicio_extra (nombre, precio) VALUES
+('Desayuno buffet', 15.00),
+('Acceso al Spa',   50.00),
+('Traslado aeropuerto', 30.00);
+
+INSERT INTO metodo_pago (descripcion) VALUES
+('Efectivo'),
+('Tarjeta de credito'),
+('Transferencia bancaria');
+
+/* ---------- Hotel y dependientes ---------- */
+
+INSERT INTO hotel (nombre, direccion, ciudad, id_pais, telefono) VALUES
+('Hotel Obelisco',  'Av. Corrientes 1234', 'Buenos Aires', 1, '011-4000-0001'),
+('Hotel Copacabana','Rua Atlantica 500',   'Rio de Janeiro', 2, '021-5000-0002'),
+('Hotel Gran Via',  'Calle Gran Via 80',   'Madrid', 3, '034-6000-0003');
+
+INSERT INTO empleado (id_rol, id_hotel, nombre, apellido, email_corporativo, activo) VALUES
+(1, 1, 'Lucia',  'Gomez',    'lgomez@hotel.com',  1),
+(2, 1, 'Pedro',  'Martinez', 'pmartinez@hotel.com', 1),
+(3, 2, 'Ana',    'Silva',    'asilva@hotel.com',  1);
+
+INSERT INTO habitacion (id_hotel, id_tipo_habitacion, numero_habitacion, piso, precio_base_noche) VALUES
+(1, 1, '101', 1,  80.00),
+(1, 2, '102', 1, 120.00),
+(2, 3, '301', 3, 300.00);
+
+INSERT INTO habitacion_comodidad (id_tipo_habitacion, id_comodidad) VALUES
+(1, 1),
+(2, 1),
+(3, 3);
+
+/* ---------- Huespedes ---------- */
+
+INSERT INTO huesped (id_pais_origen, nombre, apellido, email, telefono, pasaporte_dni, fecha_nacimiento) VALUES
+(1, 'Carlos', 'Perez',  'cperez@mail.com',  '011-1111-1111', 'DNI30111222', '1990-05-12'),
+(2, 'Marina', 'Souza',  'msouza@mail.com',  '021-2222-2222', 'PAS-BR-9988', '1985-09-30'),
+(3, 'Javier', 'Lopez',  'jlopez@mail.com',  '034-3333-3333', 'PAS-ES-4455', '1995-01-20');
+
+INSERT INTO programa_fidelidad (id_huesped, puntos_acumulados, nivel, fecha_alta) VALUES
+(1, 1500, 'Plata', '2024-01-10'),
+(2,  300, 'Bronce','2024-06-15'),
+(3, 5000, 'Oro',   '2023-03-01');
+
+/* ---------- Reservas ---------- */
+
+INSERT INTO reserva (id_huesped, id_estado_reserva, fecha_reserva, fecha_checkin_prev, fecha_checkout_prev) VALUES
+(1, 1, '2025-06-01T10:00:00', '2025-07-01', '2025-07-05'),
+(2, 2, '2025-06-10T14:30:00', '2025-07-10', '2025-07-12'),
+(3, 1, '2025-06-15T09:15:00', '2025-08-01', '2025-08-07');
+
+INSERT INTO detalle_reserva (id_habitacion, id_reserva, fecha_inicio, fecha_fin, precio_noche) VALUES
+(1, 1, '2025-07-01', '2025-07-05',  80.00),
+(2, 2, '2025-07-10', '2025-07-12', 120.00),
+(3, 3, '2025-08-01', '2025-08-07', 300.00);
+
+INSERT INTO registro_estadia (id_detalle_reserva, fecha_hora_checkin, fecha_hora_checkout) VALUES
+(1, '2025-07-01T15:00:00', '2025-07-05T11:00:00'),
+(2, '2025-07-10T16:00:00', NULL),
+(3, NULL, NULL);
+
+INSERT INTO reserva_servicio (id_reserva, id_servicio, cantidad) VALUES
+(1, 1, 2),
+(2, 2, 1),
+(3, 3, 4);
+
+/* ---------- Eventos ---------- */
+
+INSERT INTO evento (id_hotel, nombre_evento, fecha_hora, costo_inscripcion, cupo_maximo) VALUES
+(1, 'Conferencia Tech',  '2025-09-01T18:00:00', 100.00, 200),
+(2, 'Noche de Jazz',     '2025-09-05T21:00:00',  50.00, 80),
+(3, 'Cata de Vinos',     '2025-09-10T20:00:00',  75.00, 40);
+
+INSERT INTO inscripcion_evento (id_evento, id_huesped, fecha_inscripcion) VALUES
+(1, 1, '2025-08-20T12:00:00'),
+(2, 2, '2025-08-25T12:00:00'),
+(3, 3, '2025-08-28T12:00:00');
+
+/* ---------- Coworking ---------- */
+
+INSERT INTO coworking (id_hotel, nombre_area, capacidad_escritorios) VALUES
+(1, 'Sala Norte', 20),
+(2, 'Open Space', 35),
+(3, 'Cabinas Privadas', 10);
+
+INSERT INTO reserva_cowork (id_huesped, id_espacio, fecha_uso, tipo_pase, precio_pagado) VALUES
+(1, 1, '2025-07-02', 'Diario',   25.00),
+(2, 2, '2025-07-11', 'Por horas',10.00),
+(3, 3, '2025-08-02', 'Semanal',  90.00);
+
+/* ---------- Facturacion ---------- */
+
+INSERT INTO factura (id_reserva, fecha_emision, monto_total, impuesto) VALUES
+(1, '2025-07-05T12:00:00',  387.20,  67.20),
+(2, '2025-07-12T12:00:00',  290.40,  50.40),
+(3, '2025-08-07T12:00:00', 2178.00, 378.00);
+
+INSERT INTO pago (id_factura, id_metodo_pago, fecha_pago, monto_pagado, transaccion_pasarela_id) VALUES
+(1, 1, '2025-07-05T12:30:00',  387.20, NULL),
+(2, 2, '2025-07-12T12:30:00',  290.40, 'TXN-0002-CC'),
+(3, 3, '2025-08-07T12:30:00', 2178.00, 'TXN-0003-TR');
+
+/* ---------- Mantenimiento ---------- */
+
+INSERT INTO orden_mantenimiento (id_empleado_asignado, id_habitacion, fecha_solicitud, descripcion_problema, estado_orden) VALUES
+(2, 1, '2025-07-06T09:00:00', 'Aire acondicionado no enfria', 'Pendiente'),
+(2, 2, '2025-07-13T10:00:00', 'Canilla del bano gotea',       'En proceso'),
+(2, 3, '2025-08-08T11:00:00', 'Lampara quemada',              'Resuelta');
