@@ -1,6 +1,7 @@
 /* =====================================================================
    TP_FINAL - Datos de prueba (3 filas por tabla)
-   ===================================================================== */
+   ===================================================================== 
+*/
 
 USE (Nombre Base de datos) /* Ingresar Nombre de Base de datos */
 
@@ -139,3 +140,44 @@ INSERT INTO orden_mantenimiento (id_empleado_asignado, id_habitacion, fecha_soli
 (2, 1, '2025-07-06T09:00:00', 'Aire acondicionado no enfria', 'Pendiente'),
 (2, 2, '2025-07-13T10:00:00', 'Canilla del bano gotea',       'En proceso'),
 (2, 3, '2025-08-08T11:00:00', 'Lampara quemada',              'Resuelta');
+
+
+/* =====================================================================
+   ===================================================================== 
+   ------- Prubas de correcto funcionamiento de la Base de datos -------
+   ===================================================================== 
+   ===================================================================== 
+
+
+   =====================================================================
+   PRUEBA 1: Reserva con huesped existente  ->  Debe ser permitido
+   ===================================================================== 
+*/
+
+INSERT INTO reserva (id_huesped, id_estado_reserva, fecha_reserva, fecha_checkin_prev, fecha_checkout_prev)
+VALUES (1, 1, '2025-10-01T10:00:00', '2025-10-05', '2025-10-08');
+
+-- Verificacion: la reserva quedo cargada
+SELECT * FROM reserva WHERE fecha_reserva = '2025-10-01T10:00:00';
+
+
+/* =====================================================================
+   PRUEBA 2: Reserva con huesped inexistente  ->  Debe ser rechazado
+   ===================================================================== 
+*/
+
+INSERT INTO reserva (id_huesped, id_estado_reserva, fecha_reserva, fecha_checkin_prev, fecha_checkout_prev)
+VALUES (9999, 1, '2025-10-02T10:00:00', '2025-10-05', '2025-10-08');
+
+
+/* =====================================================================
+   PRUEBA 3: Eliminar un huesped con reservas relacionadas
+             ->  Debe evitar que sea eliminado
+   =====================================================================
+*/
+
+-- Verificar que el huésped tenga reservas 
+SELECT COUNT(*) AS reservas_del_huesped FROM reserva WHERE id_huesped = 1;
+
+-- Intentar eliminar
+DELETE FROM huesped WHERE id_huesped = 1;
